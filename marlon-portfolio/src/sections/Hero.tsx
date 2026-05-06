@@ -20,7 +20,6 @@ export default function Hero() {
       id="inicio"
       className="relative min-h-screen flex items-center justify-center bg-zinc-950 text-white px-6 overflow-hidden"
     >
-      {/* Glow roxo */}
       <div className="absolute w-125 h-[500px] bg-violet-500/20 blur-[120px] rounded-full top-[-100px] left-1/2 -translate-x-1/2" />
 
       <motion.div

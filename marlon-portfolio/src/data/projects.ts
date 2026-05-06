@@ -1,4 +1,6 @@
-export const projects = [
+import type { Project } from "../types/index";
+
+export const projects: Project[] = [
   {
     title: "Landing Page Comercial",
     description:
