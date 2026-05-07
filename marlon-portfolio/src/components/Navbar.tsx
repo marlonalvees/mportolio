@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { NavItem } from "../types";
+import { useActiveSection } from "../hooks/useActiveSection";
 
 const navItems: NavItem[] = [
   { label: "Início", href: "#inicio" },
@@ -10,8 +11,11 @@ const navItems: NavItem[] = [
   { label: "Contato", href: "#contato" },
 ];
 
+const sectionIds = navItems.map((item) => item.href.replace("#", ""));
+
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const activeId = useActiveSection(sectionIds);
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -28,15 +32,29 @@ export default function Navbar() {
         </a>
 
         <div className="hidden items-center gap-8 md:flex">
-          {navItems.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="text-sm text-zinc-400 transition hover:text-violet-400"
-            >
-              {item.label}
-            </a>
-          ))}
+          {navItems.map((item) => {
+            const isActive = activeId === item.href.replace("#", "");
+            return (
+              <a
+                key={item.label}
+                href={item.href}
+                className={`relative text-sm transition ${
+                  isActive
+                    ? "text-violet-400"
+                    : "text-zinc-400 hover:text-violet-400"
+                }`}
+              >
+                {item.label}
+                {isActive && (
+                  <motion.span
+                    layoutId="active-indicator"
+                    className="absolute -bottom-1 left-0 right-0 h-px bg-violet-400 rounded-full"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+              </a>
+            );
+          })}
         </div>
 
         <a
@@ -49,7 +67,7 @@ export default function Navbar() {
         {/* btn hamburguer */}
         <button
           onClick={() => setMenuOpen((prev) => !prev)}
-          className="flex md:hidden flex-col justify-center items-center w-8 h-8 gap-1.5 group"
+          className="flex md:hidden flex-col justify-center items-center w-8 h-8 gap-1.5"
           aria-label="Abrir menu"
         >
           <motion.span
@@ -81,19 +99,26 @@ export default function Navbar() {
             className="overflow-hidden border-t border-white/10 bg-zinc-950/95 backdrop-blur-xl md:hidden"
           >
             <div className="flex flex-col px-6 py-6 gap-5">
-              {navItems.map((item, index) => (
-                <motion.a
-                  key={item.label}
-                  href={item.href}
-                  onClick={closeMenu}
-                  initial={{ opacity: 0, x: -16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.07 }}
-                  className="text-base text-zinc-300 hover:text-violet-400 transition"
-                >
-                  {item.label}
-                </motion.a>
-              ))}
+              {navItems.map((item, index) => {
+                const isActive = activeId === item.href.replace("#", "");
+                return (
+                  <motion.a
+                    key={item.label}
+                    href={item.href}
+                    onClick={closeMenu}
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.07 }}
+                    className={`text-base transition ${
+                      isActive
+                        ? "text-violet-400 font-medium"
+                        : "text-zinc-300 hover:text-violet-400"
+                    }`}
+                  >
+                    {item.label}
+                  </motion.a>
+                );
+              })}
 
               <motion.a
                 href="#contato"
