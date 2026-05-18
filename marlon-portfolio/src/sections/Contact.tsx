@@ -17,7 +17,6 @@ export default function Contact() {
     setIsSubmitting(true);
     setStatusMessage("idle");
 
-    // As chaves virão do seu .env depois
     emailjs
       .sendForm(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
