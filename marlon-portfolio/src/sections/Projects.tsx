@@ -115,11 +115,11 @@ function ProjectCard({
         )}
       </div>
 
-      <div className="p-6 flex flex-col grow">
+      <div className="p-6 flex flex-col flex-grow">
         <h3 className="text-lg font-semibold text-white mb-2">
           {project.title}
         </h3>
-        <p className="text-zinc-400 text-sm leading-relaxed mb-5 grow">
+        <p className="text-zinc-400 text-sm leading-relaxed mb-5 flex-grow">
           {project.description}
         </p>
 
@@ -160,6 +160,7 @@ function ProjectCard({
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState<string>(ALL);
   const [activeTech, setActiveTech] = useState<string>(ALL);
+  const [visibleCount, setVisibleCount] = useState<number>(3);
 
   const [lightboxProject, setLightboxProject] = useState<Project | null>(null);
   const [lightboxIndex, setLightboxIndex] = useState<number>(0);
@@ -167,7 +168,6 @@ export default function Projects() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!lightboxProject) return;
-
       if (e.key === "Escape") setLightboxProject(null);
       if (e.key === "ArrowRight") {
         setLightboxIndex((prev) => (prev + 1) % lightboxProject.images.length);
@@ -178,7 +178,6 @@ export default function Projects() {
         );
       }
     };
-
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [lightboxProject]);
@@ -201,6 +200,10 @@ export default function Projects() {
       return matchCategory && matchTech;
     });
   }, [activeCategory, activeTech]);
+
+  const projectsToShow = useMemo(() => {
+    return filtered.slice(0, visibleCount);
+  }, [filtered, visibleCount]);
 
   const handleOpenLightbox = (project: Project, index: number) => {
     setLightboxProject(project);
@@ -240,7 +243,10 @@ export default function Projects() {
             {categories.map((cat) => (
               <button
                 key={cat}
-                onClick={() => setActiveCategory(cat)}
+                onClick={() => {
+                  setActiveCategory(cat);
+                  setVisibleCount(3);
+                }}
                 className={`px-4 py-1.5 rounded-full text-sm font-medium border transition ${
                   activeCategory === cat
                     ? "bg-violet-500 border-violet-500 text-white"
@@ -256,7 +262,10 @@ export default function Projects() {
             {techs.map((tech) => (
               <button
                 key={tech}
-                onClick={() => setActiveTech(tech)}
+                onClick={() => {
+                  setActiveTech(tech);
+                  setVisibleCount(3);
+                }}
                 className={`px-3 py-1 rounded-full text-xs border transition ${
                   activeTech === tech
                     ? "bg-violet-500/20 border-violet-500 text-violet-300"
@@ -269,10 +278,13 @@ export default function Projects() {
           </div>
         </motion.div>
 
-        <motion.div layout className="grid md:grid-cols-2 gap-6">
+        <motion.div
+          layout
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
           <AnimatePresence mode="popLayout">
-            {filtered.length > 0 ? (
-              filtered.map((project) => (
+            {projectsToShow.length > 0 ? (
+              projectsToShow.map((project) => (
                 <ProjectCard
                   key={project.title}
                   project={project}
@@ -283,13 +295,28 @@ export default function Projects() {
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="col-span-2 text-center text-zinc-500 py-16"
+                className="col-span-full text-center text-zinc-500 py-16"
               >
                 Nenhum projeto encontrado com esses filtros.
               </motion.p>
             )}
           </AnimatePresence>
         </motion.div>
+
+        {filtered.length > visibleCount && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-12 text-center"
+          >
+            <button
+              onClick={() => setVisibleCount((prev) => prev + 3)}
+              className="px-6 py-2.5 rounded-full border border-violet-500/40 text-violet-300 font-medium text-sm hover:bg-violet-500 hover:text-white hover:border-violet-500 transition-all duration-300 backdrop-blur-sm cursor-pointer shadow-lg shadow-violet-500/5"
+            >
+              Ver mais
+            </button>
+          </motion.div>
+        )}
       </div>
 
       <AnimatePresence>
@@ -299,7 +326,7 @@ export default function Projects() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setLightboxProject(null)}
-            className="fixed inset-0 z-100 flex items-center justify-center bg-black/70 backdrop-blur-md p-4 cursor-zoom-out"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-md p-4 cursor-zoom-out"
           >
             <button
               onClick={() => setLightboxProject(null)}
