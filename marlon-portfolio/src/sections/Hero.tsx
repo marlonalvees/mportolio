@@ -65,7 +65,6 @@ export default function Hero() {
       id="inicio"
       className="relative min-h-screen flex items-center justify-center bg-zinc-950 text-white px-6 overflow-hidden"
     >
-      {/* Glow de fundo */}
       <div className="absolute w-[500px] h-[500px] bg-violet-500/20 blur-[120px] rounded-full top-[-100px] left-1/2 -translate-x-1/2" />
 
       <motion.div
@@ -74,7 +73,6 @@ export default function Hero() {
         animate="show"
         className="relative max-w-5xl w-full mx-auto grid md:grid-cols-2 gap-12 items-center"
       >
-        {/* Coluna esquerda — texto */}
         <div className="flex flex-col items-start text-left">
           <motion.span
             variants={item}
@@ -100,7 +98,6 @@ export default function Hero() {
             experiência do usuário.
           </motion.p>
 
-          {/* Botões */}
           <motion.div variants={item} className="mt-8 flex flex-wrap gap-4">
             <motion.a
               href="#projetos"
@@ -109,6 +106,30 @@ export default function Hero() {
               className="bg-violet-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-violet-400 transition"
             >
               Ver projetos
+            </motion.a>
+
+            <motion.a
+              href="/Marlon-CV.pdf"
+              download="Marlon-CV.pdf"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-2 border border-violet-500/50 bg-violet-500/10 px-6 py-3 rounded-full text-violet-300 hover:bg-violet-500/20 hover:border-violet-400 transition"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="w-5 h-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                />
+              </svg>
+              Baixar CV
             </motion.a>
 
             <motion.a
@@ -121,7 +142,6 @@ export default function Hero() {
             </motion.a>
           </motion.div>
 
-          {/* Redes sociais */}
           <motion.div variants={item} className="mt-10 flex items-center gap-4">
             <span className="text-sm text-zinc-500">Me encontre em</span>
             <div className="h-px w-8 bg-zinc-700" />
@@ -143,16 +163,13 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* Coluna direita — foto */}
         <motion.div
           variants={item}
           className="flex justify-center md:justify-end"
         >
           <div className="relative">
-            {/* Glow atrás da foto */}
             <div className="absolute inset-0 bg-violet-500/20 blur-3xl scale-110 rounded-3xl" />
 
-            {/* Placeholder da foto */}
             <div
               className="relative w-64 md:w-80 bg-zinc-800 rounded-2xl overflow-hidden shadow-2xl shadow-violet-950/50 flex items-end justify-center"
               style={{ aspectRatio: "3/4" }}
@@ -166,8 +183,8 @@ export default function Hero() {
                 <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
               </svg>
 
-              {/* Substituir o conteúdo acima pela sua foto: */}
-              {/* <img src="/sua-foto.jpg" alt="Marlon" className="w-full h-full object-cover object-top absolute inset-0" /> */}
+              {/* substituir o conteúdo acima por foto/}
+              {/* <img src="/foto.jpg" alt="Marlon" className="w-full h-full object-cover object-top absolute inset-0" /> */}
             </div>
           </div>
         </motion.div>
