@@ -3,6 +3,9 @@ export interface Project {
   description: string;
   tech: string[];
   category: string;
+  stack: "Frontend" | "Backend" | "Full Stack";
+  status: "Online" | "Em desenvolvimento" | "Concluído";
+  features: string[];
   images: string[];
   link: string;
   github: string;
