@@ -174,17 +174,11 @@ export default function Hero() {
               className="relative w-64 md:w-80 bg-zinc-800 rounded-2xl overflow-hidden shadow-2xl shadow-violet-950/50 flex items-end justify-center"
               style={{ aspectRatio: "3/4" }}
             >
-              <svg
-                className="w-48 h-48 text-zinc-600 mb-0 translate-y-4"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
-              </svg>
-
-              {/* substituir o conteúdo acima por foto/}
-              {/* <img src="/foto.jpg" alt="Marlon" className="w-full h-full object-cover object-top absolute inset-0" /> */}
+              <img
+                src="/perfil.png"
+                alt="Marlon"
+                className="w-full h-full object-cover object-top"
+              />
             </div>
           </div>
         </motion.div>
