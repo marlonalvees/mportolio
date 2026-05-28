@@ -86,16 +86,16 @@ export default function Hero() {
             variants={item}
             className="text-5xl md:text-6xl font-bold leading-tight text-white"
           >
-            Criando <span className="text-violet-400">interfaces modernas</span>{" "}
-            e funcionais
+            Criando <span className="text-violet-400">soluções completas</span>{" "}
+            do front ao back
           </motion.h1>
 
           <motion.p
             variants={item}
             className="mt-6 text-zinc-400 text-lg leading-relaxed"
           >
-            Eu desenvolvo sites e aplicações com foco em design, performance e
-            experiência do usuário.
+            Eu desenvolvo aplicações completas — da interface ao servidor, com
+            foco em qualidade, performance e boa experiência.
           </motion.p>
 
           <motion.div variants={item} className="mt-8 flex flex-wrap gap-4">

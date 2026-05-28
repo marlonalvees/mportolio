@@ -5,7 +5,7 @@ export const services: Service[] = [
     icon: "🖥️",
     title: "Desenvolvimento Web",
     description:
-      "Criação de sites e aplicações modernas com React, TypeScript e Tailwind. Foco em performance, acessibilidade e boas práticas.",
+      "Criação de aplicações completas com React no front e Node.js no back, do banco de dados à interface final.",
   },
   {
     icon: "🎨",
@@ -21,7 +21,7 @@ export const services: Service[] = [
   },
   {
     icon: "⚡",
-    title: "Otimização de Performance",
+    title: "Integração Back-end & Banco de Dados",
     description:
       "Análise e melhoria de performance de sites existentes: carregamento rápido, SEO técnico e experiência fluida.",
   },

@@ -29,8 +29,8 @@ export default function Services() {
             Serviços
           </h2>
           <p className="mt-4 text-zinc-400 max-w-xl mx-auto">
-            Ofereço soluções completas de front-end — do design à entrega final,
-            com qualidade e atenção aos detalhes.
+            Ofereço soluções completas de ponta a ponta — do design da interface
+            à lógica do servidor, com qualidade e atenção aos detalhes.
           </p>
         </motion.div>
 
