@@ -66,6 +66,40 @@ export const projects: Project[] = [
     github: "https://github.com/matheuscrvlh/avaliacoes-novamix",
   },
   {
+    title: "JP Tattoo",
+    description:
+      "Desenvolvimento de um website de portfólio completo para o tatuador João Paulo, com galeria de trabalhos por categoria, painel administrativo para upload e exclusão de imagens, e integração com WhatsApp e Instagram para captação de clientes.",
+    tech: [
+      "React",
+      "Vite",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Node",
+      "Express",
+      "Supabase",
+    ],
+    category: "Sites",
+    stack: "Full Stack",
+    status: "Online",
+    features: [
+      "Portfólio de tatuagens com categorias filtráveis",
+      "Painel administrativo com upload de imagens",
+      "Exclusão de imagens pelo admin",
+      "Armazenamento de imagens em nuvem (Supabase Storage)",
+      "Layout responsivo com animações",
+      "Integração com WhatsApp e Instagram",
+    ],
+    images: [
+      "/projects/jp-01.png",
+      "/projects/jp-02.png",
+      "/projects/jp-03.png",
+      "/projects/jp-04.png",
+      "/projects/jp-05.png",
+    ],
+    link: "https://www.jopatatuagem.com.br/",
+    github: "https://github.com/marlonalvees/jp-tattoo",
+  },
+  {
     title: "Gestão de Estoque",
     description:
       "Sistema de gerenciamento de estoque desenvolvido para FriPet Veterinária 24 horas. Focado na usabilidade e no controle prático de insumos do dia a dia.",
