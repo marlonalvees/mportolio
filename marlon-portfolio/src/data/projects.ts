@@ -66,6 +66,43 @@ export const projects: Project[] = [
     github: "https://github.com/matheuscrvlh/avaliacoes-novamix",
   },
   {
+    title: "Andri Personalizzato",
+    description:
+      "Desenvolvimento de uma loja virtual completa para uma marca de produtos personalizados, com catálogo de produtos por categoria, carrinho de compras, painel administrativo e integração com WhatsApp para captação de clientes.",
+    tech: [
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Supabase",
+    ],
+    category: "Sites",
+    stack: "Full Stack",
+    status: "Online",
+    features: [
+      "Catálogo de produtos com filtro por categoria",
+      "Página de detalhes do produto com URL amigável",
+      "Carrinho de compras com contexto global",
+      "Formulário de orçamento personalizado",
+      "Popup de WhatsApp com temporizador",
+      "Painel administrativo com CRUD de produtos",
+      "Gerenciamento de banners e promoções",
+      "Login protegido para o painel admin",
+    ],
+    images: [
+      "/projects/andri-1.png",
+      "/projects/andri-2.png",
+      "/projects/andri-3.png",
+      "/projects/andri-4.png",
+      "/projects/andri-5.png",
+      "/projects/andri-6.png",
+      "/projects/andri-7.png",
+    ],
+    link: "https://www.andripersonalizzato.com.br/",
+    github: "",
+  },
+
+  {
     title: "JP Tattoo",
     description:
       "Desenvolvimento de um website de portfólio completo para o tatuador João Paulo, com galeria de trabalhos por categoria, painel administrativo para upload e exclusão de imagens, e integração com WhatsApp e Instagram para captação de clientes.",
