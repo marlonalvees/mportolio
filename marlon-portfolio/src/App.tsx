@@ -1,23 +1,30 @@
-import Navbar from "./components/Navbar";
+import { MotionConfig } from "framer-motion";
 import Footer from "./components/Footer";
-import Hero from "./sections/Hero";
-import Projects from "./sections/Projects";
-import About from "./sections/About";
-import Services from "./sections/Services";
+import Navbar from "./components/Navbar";
+import SmoothScroll from "./components/SmoothScroll";
 import Contact from "./sections/Contact";
+import HeroAbout from "./sections/HeroAbout";
+import Projects from "./sections/Projects";
+import Services from "./sections/Services";
+import Stack from "./sections/Stack";
+import Statement from "./sections/Statement";
 
 export default function App() {
   return (
-    <>
-      <Navbar />
-      <main>
-        <Hero />
-        <Projects />
-        <About />
-        <Services />
-        <Contact />
-      </main>
-      <Footer />
-    </>
+    <MotionConfig reducedMotion="user">
+      <SmoothScroll>
+        <Navbar />
+        <main>
+          <HeroAbout />
+          <Statement />
+          <Services />
+          <Projects />
+          <Stack />
+          <Contact />
+        </main>
+        <Footer />
+        <div className="grain" aria-hidden />
+      </SmoothScroll>
+    </MotionConfig>
   );
 }

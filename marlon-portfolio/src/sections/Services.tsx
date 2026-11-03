@@ -1,62 +1,45 @@
+import { Fragment } from "react";
 import { motion } from "framer-motion";
+import Reveal from "../components/Reveal";
 import { services } from "../data/services";
-
-const container = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.12 } },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0 },
-};
+import { EASE } from "../lib/motion";
 
 export default function Services() {
   return (
-    <section id="servicos" className="bg-zinc-950 py-28 px-6">
-      <div className="max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-14 text-center"
-        >
-          <span className="text-violet-400 text-sm font-semibold uppercase tracking-widest">
-            O que eu faço
-          </span>
-          <h2 className="mt-3 text-4xl md:text-5xl font-bold text-white">
-            Serviços
-          </h2>
-          <p className="mt-4 text-zinc-400 max-w-xl mx-auto">
-            Ofereço soluções completas de ponta a ponta — do design da interface
-            à lógica do servidor, com qualidade e atenção aos detalhes.
-          </p>
-        </motion.div>
+    <section id="servicos" className="py-14 lg:py-16">
+      <div className="container-x">
+        <Reveal>
+          <h2 className="type-h2">Serviços</h2>
+        </Reveal>
 
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          className="grid sm:grid-cols-2 gap-6"
-        >
-          {services.map((service) => (
-            <motion.div
+        <ul className="mt-12 lg:mt-20">
+          {services.map((service, index) => (
+            <motion.li
               key={service.title}
-              variants={item}
-              className="group rounded-2xl border border-white/10 bg-zinc-900 p-7 hover:border-violet-500/40 transition-colors"
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "0px 0px -8% 0px" }}
+              transition={{ duration: 0.8, ease: EASE, delay: index * 0.06 }}
+              className="group flex flex-col gap-3 border-b border-ink/10 py-8 md:flex-row md:items-center md:justify-between md:gap-8 lg:py-12"
             >
-              <span className="text-3xl">{service.icon}</span>
-              <h3 className="mt-4 text-lg font-semibold text-white">
+              <h3 className="type-h3 transition-transform duration-500 ease-out-expo group-hover:translate-x-2">
                 {service.title}
               </h3>
-              <p className="mt-2 text-sm text-zinc-400 leading-relaxed">
-                {service.description}
+              <p className="flex flex-wrap items-center gap-x-3 gap-y-1 type-body text-ink/60 transition-colors duration-500 group-hover:text-ink">
+                {service.tags.map((tag, tagIndex) => (
+                  <Fragment key={tag}>
+                    {tagIndex > 0 && (
+                      <span aria-hidden className="text-ink">
+                        •
+                      </span>
+                    )}
+                    <span>{tag}</span>
+                  </Fragment>
+                ))}
               </p>
-            </motion.div>
+            </motion.li>
           ))}
-        </motion.div>
+        </ul>
       </div>
     </section>
   );

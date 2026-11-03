@@ -2,27 +2,23 @@ import type { Service } from "../types";
 
 export const services: Service[] = [
   {
-    icon: "🖥️",
-    title: "Desenvolvimento Web",
-    description:
-      "Criação de aplicações completas com React no front e Node.js no back, do banco de dados à interface final.",
+    title: "Sites & Landing Pages",
+    tags: ["Institucionais", "Landing pages", "SEO técnico"],
   },
   {
-    icon: "🎨",
-    title: "UI / UX Design",
-    description:
-      "Interfaces pensadas para o usuário: intuitivas, bonitas e funcionais. Do wireframe ao produto final.",
+    title: "Lojas Virtuais",
+    tags: ["Catálogo", "Carrinho", "Painel admin"],
   },
   {
-    icon: "📱",
-    title: "Design Responsivo",
-    description:
-      "Sites que funcionam perfeitamente em qualquer dispositivo — do celular ao desktop.",
+    title: "Sistemas Web",
+    tags: ["Dashboards", "Autenticação", "Relatórios"],
   },
   {
-    icon: "⚡",
-    title: "Integração Back-end & Banco de Dados",
-    description:
-      "Análise e melhoria de performance de sites existentes: carregamento rápido, SEO técnico e experiência fluida.",
+    title: "APIs & Back-end",
+    tags: ["Node.js", "Banco de dados", "Integrações"],
+  },
+  {
+    title: "Front-end & UI",
+    tags: ["Figma", "Responsivo", "Animações"],
   },
 ];

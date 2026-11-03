@@ -1,139 +1,137 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Ellipsis, X } from "lucide-react";
 import type { NavItem } from "../types";
+import { site } from "../config/site";
 import { useActiveSection } from "../hooks/useActiveSection";
+import { EASE } from "../lib/motion";
 
 const navItems: NavItem[] = [
-  { label: "Início", href: "#inicio" },
-  { label: "Projetos", href: "#projetos" },
   { label: "Sobre", href: "#sobre" },
   { label: "Serviços", href: "#servicos" },
+  { label: "Projetos", href: "#projetos" },
+  { label: "Stack", href: "#stack" },
   { label: "Contato", href: "#contato" },
 ];
 
-const sectionIds = navItems.map((item) => item.href.replace("#", ""));
+// "inicio" entra na observação para nenhum item ficar ativo enquanto se está no topo.
+const sectionIds = ["inicio", ...navItems.map((item) => item.href.slice(1))];
 
 export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
   const activeId = useActiveSection(sectionIds);
 
-  const closeMenu = () => setMenuOpen(false);
+  useEffect(() => {
+    if (!open) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    const onPointerDown = (event: PointerEvent) => {
+      if (!navRef.current?.contains(event.target as Node)) setOpen(false);
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [open]);
+
+  const close = () => setOpen(false);
 
   return (
     <motion.header
-      initial={{ opacity: 0, y: -24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="fixed top-0 left-0 z-50 w-full border-b border-white/10 bg-zinc-950/70 backdrop-blur-xl"
+      initial={{ y: -90, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.9, ease: EASE, delay: 0.1 }}
+      className="pointer-events-none fixed inset-x-0 top-5 z-50 flex justify-center px-5 md:top-[30px]"
     >
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="#inicio" className="text-lg font-bold text-white">
-          Marlon<span className="text-violet-400">.dev</span>
-        </a>
+      <nav
+        ref={navRef}
+        aria-label="Navegação principal"
+        className="pointer-events-auto w-full overflow-hidden rounded-[20px] bg-ink text-paper shadow-[0_12px_40px_-12px_rgb(0_0_0/0.45)] md:w-[320px]"
+      >
+        <div className="flex h-[60px] items-center justify-between pr-3 pl-4">
+          <a
+            href="#inicio"
+            onClick={close}
+            className="text-[22px] font-semibold tracking-[-0.04em]"
+          >
+            {site.shortName}
+          </a>
 
-        <div className="hidden items-center gap-8 md:flex">
-          {navItems.map((item) => {
-            const isActive = activeId === item.href.replace("#", "");
-            return (
-              <a
-                key={item.label}
-                href={item.href}
-                className={`relative text-sm transition ${
-                  isActive
-                    ? "text-violet-400"
-                    : "text-zinc-400 hover:text-violet-400"
-                }`}
+          <button
+            type="button"
+            onClick={() => setOpen((value) => !value)}
+            aria-expanded={open}
+            aria-controls="menu-principal"
+            aria-label={open ? "Fechar menu" : "Abrir menu"}
+            className={`grid size-9 place-items-center rounded-lg text-ink transition-colors duration-300 ${
+              open ? "bg-paper/85" : "bg-paper hover:bg-paper/85"
+            }`}
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={open ? "close" : "open"}
+                initial={{ opacity: 0, rotate: -90, scale: 0.6 }}
+                animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                exit={{ opacity: 0, rotate: 90, scale: 0.6 }}
+                transition={{ duration: 0.18 }}
+                className="grid place-items-center"
               >
-                {item.label}
-                {isActive && (
-                  <motion.span
-                    layoutId="active-indicator"
-                    className="absolute -bottom-1 left-0 right-0 h-px bg-violet-400 rounded-full"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                  />
+                {open ? (
+                  <X size={18} strokeWidth={2.25} aria-hidden />
+                ) : (
+                  <Ellipsis size={22} strokeWidth={3} aria-hidden />
                 )}
-              </a>
-            );
-          })}
+              </motion.span>
+            </AnimatePresence>
+          </button>
         </div>
 
-        <a
-          href="#contato"
-          className="hidden md:block rounded-full bg-violet-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-violet-400"
-        >
-          Fale comigo
-        </a>
-
-        {/* btn hamburguer */}
-        <button
-          onClick={() => setMenuOpen((prev) => !prev)}
-          className="flex md:hidden flex-col justify-center items-center w-8 h-8 gap-1.5"
-          aria-label="Abrir menu"
-        >
-          <motion.span
-            animate={menuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="block h-0.5 w-6 bg-white rounded-full origin-center"
-          />
-          <motion.span
-            animate={menuOpen ? { opacity: 0, x: -8 } : { opacity: 1, x: 0 }}
-            transition={{ duration: 0.2 }}
-            className="block h-0.5 w-6 bg-white rounded-full"
-          />
-          <motion.span
-            animate={menuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="block h-0.5 w-6 bg-white rounded-full origin-center"
-          />
-        </button>
+        <AnimatePresence initial={false}>
+          {open && (
+            <motion.div
+              id="menu-principal"
+              key="menu"
+              initial={{ height: 0 }}
+              animate={{ height: "auto" }}
+              exit={{ height: 0 }}
+              transition={{ duration: 0.5, ease: EASE }}
+            >
+              <ul className="flex flex-col items-start gap-2 px-4 pt-1 pb-5">
+                {navItems.map((item, index) => {
+                  const active = activeId === item.href.slice(1);
+                  return (
+                    <motion.li
+                      key={item.href}
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, transition: { duration: 0.1 } }}
+                      transition={{ duration: 0.4, ease: EASE, delay: 0.06 + index * 0.04 }}
+                    >
+                      <a
+                        href={item.href}
+                        onClick={close}
+                        aria-current={active ? "location" : undefined}
+                        className="inline-flex items-center gap-2 rounded-lg bg-paper px-4 py-1.5 type-small text-ink transition-colors hover:bg-paper/80"
+                      >
+                        {active && (
+                          <span className="size-1.5 rounded-full bg-accent" aria-hidden />
+                        )}
+                        {item.label}
+                      </a>
+                    </motion.li>
+                  );
+                })}
+              </ul>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
-
-      {/* menu mobile */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.35, ease: "easeInOut" }}
-            className="overflow-hidden border-t border-white/10 bg-zinc-950/95 backdrop-blur-xl md:hidden"
-          >
-            <div className="flex flex-col px-6 py-6 gap-5">
-              {navItems.map((item, index) => {
-                const isActive = activeId === item.href.replace("#", "");
-                return (
-                  <motion.a
-                    key={item.label}
-                    href={item.href}
-                    onClick={closeMenu}
-                    initial={{ opacity: 0, x: -16 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.07 }}
-                    className={`text-base transition ${
-                      isActive
-                        ? "text-violet-400 font-medium"
-                        : "text-zinc-300 hover:text-violet-400"
-                    }`}
-                  >
-                    {item.label}
-                  </motion.a>
-                );
-              })}
-
-              <motion.a
-                href="#contato"
-                onClick={closeMenu}
-                initial={{ opacity: 0, x: -16 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: navItems.length * 0.07 }}
-                className="mt-2 w-full text-center rounded-full bg-violet-500 px-5 py-3 text-sm font-semibold text-white hover:bg-violet-400 transition"
-              >
-                Fale comigo
-              </motion.a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.header>
   );
 }
