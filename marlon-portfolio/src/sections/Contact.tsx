@@ -1,108 +1,129 @@
-import { useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import type { FormEvent } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
+import { LoaderCircle } from "lucide-react";
+import Reveal from "../components/Reveal";
+import { socialLinks } from "../config/socials";
+import { EASE } from "../lib/motion";
+
+type Status = "idle" | "sending" | "success" | "error";
+
+const inputClass =
+  "w-full rounded-[10px] border border-paper/25 bg-transparent px-3.5 py-3 type-small text-paper placeholder:text-paper/45 outline-none transition-colors focus:border-paper/70";
 
 export default function Contact() {
-  const form = useRef<HTMLFormElement>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [statusMessage, setStatusMessage] = useState<
-    "idle" | "success" | "error"
-  >("idle");
+  const formRef = useRef<HTMLFormElement>(null);
+  const [status, setStatus] = useState<Status>("idle");
 
-  const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // Esconde a mensagem de sucesso/erro depois de alguns segundos.
+  useEffect(() => {
+    if (status !== "success" && status !== "error") return;
+    const timer = window.setTimeout(() => setStatus("idle"), 6000);
+    return () => window.clearTimeout(timer);
+  }, [status]);
 
-    if (!form.current) return;
+  const sendEmail = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!formRef.current) return;
 
-    setIsSubmitting(true);
-    setStatusMessage("idle");
-
-    emailjs
-      .sendForm(
+    setStatus("sending");
+    try {
+      await emailjs.sendForm(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        form.current,
+        formRef.current,
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
-      )
-      .then(
-        () => {
-          setStatusMessage("success");
-          form.current?.reset();
-        },
-        (error) => {
-          console.error("Erro ao enviar e-mail:", error);
-          setStatusMessage("error");
-        },
-      )
-      .finally(() => {
-        setIsSubmitting(false);
-        // Remove a mensagem de sucesso/erro após 5 segundos
-        setTimeout(() => setStatusMessage("idle"), 5000);
-      });
+      );
+      formRef.current.reset();
+      setStatus("success");
+    } catch (error) {
+      console.error("Erro ao enviar e-mail:", error);
+      setStatus("error");
+    }
   };
 
-  return (
-    <section id="contato" className="bg-zinc-900 py-28 px-6">
-      <div className="max-w-2xl mx-auto text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <span className="text-violet-400 text-sm font-semibold uppercase tracking-widest">
-            Contato
-          </span>
-          <h2 className="mt-3 text-4xl md:text-5xl font-bold text-white">
-            Buscando um desenvolvedor para o seu time?
-          </h2>
-          <p className="mt-4 text-zinc-400 max-w-lg mx-auto leading-relaxed">
-            Estou disponível para conversar sobre novas oportunidades e
-            desafios. Deixe sua mensagem abaixo e vamos descobrir como posso
-            ajudar a sua empresa.
-          </p>
-        </motion.div>
+  const sending = status === "sending";
 
-        <motion.form
-          ref={form}
-          onSubmit={sendEmail}
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.15 }}
-          className="mt-12 flex flex-col gap-4 text-left"
-        >
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="user_name" className="text-sm text-zinc-400">
-                Nome
-              </label>
-              <input
-                id="user_name"
-                name="user_name"
-                type="text"
-                required
-                placeholder="Seu nome"
-                className="rounded-xl border border-white/10 bg-zinc-800 px-4 py-3 text-sm text-white placeholder-zinc-500 outline-none focus:border-violet-500/60 transition"
-              />
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="user_email" className="text-sm text-zinc-400">
-                E-mail
-              </label>
-              <input
-                id="user_email"
-                name="user_email"
-                type="email"
-                required
-                placeholder="seu@email.com"
-                className="rounded-xl border border-white/10 bg-zinc-800 px-4 py-3 text-sm text-white placeholder-zinc-500 outline-none focus:border-violet-500/60 transition"
-              />
-            </div>
+  return (
+    <section id="contato" className="py-14 lg:py-16">
+      <div className="container-x grid gap-12 lg:grid-cols-[1fr_500px] lg:gap-20">
+        <div className="flex flex-col justify-between gap-10">
+          <div>
+            <Reveal>
+              <h2 className="type-h2">Vamos conversar.</h2>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <p className="mt-5 max-w-[560px] type-body">
+                Tem um projeto, uma ideia ou uma vaga em mente? Preencha o
+                formulário e eu te respondo o quanto antes.
+              </p>
+            </Reveal>
           </div>
 
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="message" className="text-sm text-zinc-400">
+          {socialLinks.length > 0 && (
+            <Reveal delay={0.12}>
+              <ul className="flex flex-wrap gap-4">
+                {socialLinks.map(({ label, href, icon: Icon }) => (
+                  <li key={label}>
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={label}
+                      title={label}
+                      className="grid size-10 place-items-center rounded-lg bg-ink/10 text-ink transition-colors duration-300 hover:bg-ink hover:text-paper"
+                    >
+                      <Icon size={18} aria-hidden />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          )}
+        </div>
+
+        <motion.form
+          ref={formRef}
+          onSubmit={sendEmail}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.1 }}
+          className="flex flex-col gap-5 rounded-[20px] bg-ink p-4 text-paper sm:p-5"
+        >
+          <div className="flex flex-col gap-2">
+            <label htmlFor="user_name" className="type-small">
+              Nome
+            </label>
+            <input
+              id="user_name"
+              name="user_name"
+              type="text"
+              required
+              autoComplete="name"
+              placeholder="Seu nome"
+              className={inputClass}
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="user_email" className="type-small">
+              E-mail
+            </label>
+            <input
+              id="user_email"
+              name="user_email"
+              type="email"
+              required
+              autoComplete="email"
+              placeholder="seu@email.com"
+              className={inputClass}
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="message" className="type-small">
               Mensagem
             </label>
             <textarea
@@ -110,82 +131,45 @@ export default function Contact() {
               name="message"
               required
               rows={5}
-              placeholder="Conte um pouco sobre seu projeto..."
-              className="rounded-xl border border-white/10 bg-zinc-800 px-4 py-3 text-sm text-white placeholder-zinc-500 outline-none focus:border-violet-500/60 transition resize-none"
+              placeholder="Conte um pouco sobre o seu projeto ou a vaga"
+              className={`${inputClass} resize-none`}
             />
           </div>
 
-          <motion.button
-            whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
-            whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+          <button
             type="submit"
-            disabled={isSubmitting}
-            className="mt-2 w-full rounded-full bg-violet-500 py-3.5 text-sm font-semibold text-white hover:bg-violet-400 transition disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+            disabled={sending}
+            className="mt-1 flex items-center justify-center gap-2 rounded-[10px] bg-paper py-3.5 type-small font-medium text-ink transition hover:bg-paper/85 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {isSubmitting ? (
+            {sending ? (
               <>
-                <svg
-                  className="animate-spin h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
+                <LoaderCircle size={18} className="animate-spin" aria-hidden />
                 Enviando...
               </>
             ) : (
               "Enviar mensagem"
             )}
-          </motion.button>
+          </button>
 
-          {statusMessage === "success" && (
-            <p className="text-emerald-400 text-sm text-center mt-2">
-              Mensagem enviada com sucesso! Retorno em breve.
-            </p>
-          )}
-          {statusMessage === "error" && (
-            <p className="text-red-400 text-sm text-center mt-2">
-              Ops! Algo deu errado. Tente me contatar pelas redes sociais.
-            </p>
-          )}
+          <div aria-live="polite" className="min-h-0">
+            <AnimatePresence>
+              {(status === "success" || status === "error") && (
+                <motion.p
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className={`text-center type-small ${
+                    status === "success" ? "text-emerald-300" : "text-rose-300"
+                  }`}
+                >
+                  {status === "success"
+                    ? "Mensagem enviada! Retorno em breve."
+                    : "Ops, algo deu errado. Tente de novo ou fale comigo pelas redes."}
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </div>
         </motion.form>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-12 flex justify-center gap-6"
-        >
-          {[
-            { label: "GitHub", href: "https://github.com/seu-usuario" },
-            { label: "LinkedIn", href: "https://linkedin.com/in/seu-usuario" },
-            { label: "Instagram", href: "#" },
-          ].map((social) => (
-            <a
-              key={social.label}
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-zinc-400 hover:text-violet-400 transition"
-            >
-              {social.label}
-            </a>
-          ))}
-        </motion.div>
       </div>
     </section>
   );

@@ -1,7 +1,139 @@
 @import "tailwindcss";
 
-html {
-    scroll-behavior: smooth;
+@theme {
+  --color-ink: #111111;
+  --color-paper: #faf7f3;
+  --color-accent: #eb4d6d;
+
+  --font-sans:
+    "Archivo Variable", "Archivo", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+:root {
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+}
 
+html {
+  background-color: var(--color-paper);
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-paper);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* ---------- Layout ---------- */
+
+@utility container-x {
+  width: 100%;
+  max-width: calc(1180px + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ---------- Tipografia ---------- */
+
+@utility type-display {
+  font-size: clamp(2.75rem, 11.4vw, 11.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+}
+
+@utility type-h2 {
+  font-size: clamp(2.75rem, 5.3vw, 4.75rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+@utility type-h3 {
+  font-size: clamp(1.5rem, 2.25vw, 2rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+@utility type-statement {
+  font-size: clamp(1.625rem, 2.6vw, 2.375rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+@utility type-lead {
+  font-size: clamp(1.25rem, 1.6vw, 1.375rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.4;
+}
+
+@utility type-body {
+  font-size: 1.125rem;
+  letter-spacing: -0.04em;
+  line-height: 1.4;
+}
+
+@utility type-small {
+  font-size: 1rem;
+  letter-spacing: -0.04em;
+  line-height: 1.4;
+}
+
+/* ---------- Textura granulada sobre a página inteira ---------- */
+
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  opacity: 0.06;
+  /* Ruído cinza opaco e com bastante contraste: aparece no creme e no preto. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2.4' intercept='-0.7'/%3E%3CfeFuncG type='linear' slope='2.4' intercept='-0.7'/%3E%3CfeFuncB type='linear' slope='2.4' intercept='-0.7'/%3E%3CfeFuncA type='linear' slope='0' intercept='1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* ---------- Símbolos 3D do topo ({ } e </>) ---------- */
+
+.glyph {
+  display: block;
+  font-size: clamp(2.5rem, 7.4vw, 7.25rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  white-space: nowrap;
+  color: var(--color-ink);
+  text-shadow:
+    0.012em 0.012em 0 #6d4dff,
+    0.024em 0.024em 0 #8b6dff,
+    0.036em 0.036em 0 #b9a6ff,
+    0.048em 0.048em 0 #e6e0ff,
+    0.06em 0.06em 0 #d4d6ea,
+    0.072em 0.072em 0 #a9aec8,
+    0.084em 0.084em 0 #7c829f,
+    0.14em 0.2em 0.28em rgb(0 0 0 / 0.22);
+}

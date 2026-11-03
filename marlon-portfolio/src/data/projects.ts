@@ -2,7 +2,8 @@ import type { Project } from "../types";
 
 export const projects: Project[] = [
   {
-    title: "Website Institucional",
+    name: "Flaresoft",
+    type: "Site institucional",
     description:
       "Desenvolvimento de um website institucional para a Flaresoft, empresa especializada em soluções digitais, desenvolvimento web, SEO, integrações de sistemas, e-commerce e desenvolvimento mobile.",
     tech: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Node"],
@@ -24,11 +25,14 @@ export const projects: Project[] = [
       "/projects/flare-4.png",
       "/projects/flare-5.png",
     ],
+    coverPosition: "left top",
+    backdrop:
+      "radial-gradient(120% 140% at 0% 0%, #5b8cff 0%, #2453c9 48%, #f39c34 100%)",
     link: "https://flaresoft.com.br/",
-    github: "#",
   },
   {
-    title: "Sistema de Avaliações",
+    name: "Novamix",
+    type: "Sistema de avaliações",
     description:
       "Sistema completo de avaliações desenvolvido para a Novamix Food Service, permitindo que clientes avaliem o atendimento das lojas através de um formulário simples e intuitivo.",
     tech: [
@@ -52,7 +56,7 @@ export const projects: Project[] = [
       "Filtros avançados",
       "Exportação CSV",
       "Integração com avaliação no Google",
-      "Responsividade Mobile/Desktop",
+      "Responsividade mobile e desktop",
     ],
     images: [
       "/projects/novamix-1.png",
@@ -62,11 +66,14 @@ export const projects: Project[] = [
       "/projects/novamix-5.png",
       "/projects/novamix-6.png",
     ],
+    backdrop:
+      "radial-gradient(120% 140% at 100% 0%, #ffc27a 0%, #f2801f 50%, #0f766e 115%)",
     link: "https://avaliacoes.lojanovamix.com.br/?loja=1",
     github: "https://github.com/matheuscrvlh/avaliacoes-novamix",
   },
   {
-    title: "Andri Personalizzato",
+    name: "Andri Personalizzato",
+    type: "Loja virtual",
     description:
       "Desenvolvimento de uma loja virtual completa para uma marca de produtos personalizados, com catálogo de produtos por categoria, carrinho de compras, painel administrativo e integração com WhatsApp para captação de clientes.",
     tech: [
@@ -98,12 +105,13 @@ export const projects: Project[] = [
       "/projects/andri-6.png",
       "/projects/andri-7.png",
     ],
+    backdrop:
+      "radial-gradient(130% 140% at 0% 100%, #c9a36a 0%, #7a1b22 45%, #2a0b0f 100%)",
     link: "https://www.andripersonalizzato.com.br/",
-    github: "",
   },
-
   {
-    title: "JP Tattoo",
+    name: "JP Tattoo",
+    type: "Portfólio com painel admin",
     description:
       "Desenvolvimento de um website de portfólio completo para o tatuador João Paulo, com galeria de trabalhos por categoria, painel administrativo para upload e exclusão de imagens, e integração com WhatsApp e Instagram para captação de clientes.",
     tech: [
@@ -136,13 +144,16 @@ export const projects: Project[] = [
       "/projects/jp-07.png",
       "/projects/jp-08.png",
     ],
+    backdrop:
+      "radial-gradient(130% 140% at 100% 100%, #10b981 0%, #0f3d2e 50%, #0a0a0a 100%)",
     link: "https://www.jopatatuagem.com.br/",
     github: "https://github.com/marlonalvees/jp-tattoo",
   },
   {
-    title: "Gestão de Estoque",
+    name: "OrionStock",
+    type: "Gestão de estoque · FriPet",
     description:
-      "Sistema de gerenciamento de estoque desenvolvido para FriPet Veterinária 24 horas. Focado na usabilidade e no controle prático de insumos do dia a dia.",
+      "Sistema de gerenciamento de estoque desenvolvido para a FriPet Veterinária 24 horas. Focado na usabilidade e no controle prático de insumos do dia a dia.",
     tech: [
       "React",
       "React Router",
@@ -157,21 +168,24 @@ export const projects: Project[] = [
     stack: "Full Stack",
     status: "Online",
     features: [
-      "Entrar no sistema com usuário e senha",
-      "Visualizar um painel geral do estoque",
-      "Cadastrar produtos",
-      "Editar informações de produtos já cadastrados;",
-      "Remover produtos que não fazem mais parte do estoque",
-      "Buscar e filtrar produtos por nome, categoria e status",
-      "Alternar entre tema claro e escuro",
-      "Identificar produtos vencidos, estoque baixo, produtos que vencem nos próximos 7 dias",
-      "Sair da conta com segurança.",
+      "Login com usuário e senha",
+      "Painel geral do estoque",
+      "Cadastro de produtos",
+      "Edição de produtos já cadastrados",
+      "Remoção de produtos que saíram do estoque",
+      "Busca e filtros por nome, categoria e status",
+      "Tema claro e escuro",
+      "Alertas de produtos vencidos, estoque baixo e vencimento nos próximos 7 dias",
+      "Logout seguro",
     ],
     images: [
-      "/projects/vetstock-1.png",
       "/projects/vetstock-2.png",
       "/projects/vetstock-3.png",
+      "/projects/vetstock-1.png",
     ],
+    coverPosition: "left top",
+    backdrop:
+      "radial-gradient(130% 140% at 0% 0%, #2dd4bf 0%, #134e4a 50%, #0b1220 100%)",
     link: "https://orionstock.vercel.app/login",
     github: "https://github.com/marlonalvees/orionstock",
   },
