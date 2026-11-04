@@ -1,4 +1,4 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Download } from "lucide-react";
 import type { NavItem } from "../types";
 import { site } from "../config/site";
 import { socialLinks } from "../config/socials";
@@ -65,6 +65,18 @@ export default function Footer() {
                 </a>
               </li>
             ))}
+            {site.cvUrl && (
+              <li>
+                <a
+                  href={site.cvUrl}
+                  download
+                  className="inline-flex items-center gap-2.5 transition-opacity hover:opacity-70"
+                >
+                  <Download size={16} aria-hidden />
+                  Currículo (PDF)
+                </a>
+              </li>
+            )}
             <li>
               <a
                 href="#contato"

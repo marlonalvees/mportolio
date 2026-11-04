@@ -11,6 +11,7 @@ import ArrowLink from "../components/ArrowLink";
 import CodeGlyph from "../components/CodeGlyph";
 import Reveal from "../components/Reveal";
 import { site } from "../config/site";
+import { profileLinks } from "../config/socials";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { EASE, clamp01 } from "../lib/motion";
 
@@ -273,8 +274,13 @@ function About({ heroRef, showPhoto, animatePhoto }: AboutProps) {
               boa experiência para quem usa.
             </p>
           </Reveal>
-          <Reveal delay={0.16} className="mt-2 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <Reveal delay={0.16} className="mt-2 flex flex-wrap items-center gap-x-6 gap-y-4">
             <ArrowLink href="#contato">Vamos conversar</ArrowLink>
+            {profileLinks.map(({ label, href }) => (
+              <ArrowLink key={label} href={href} external>
+                {label}
+              </ArrowLink>
+            ))}
             {site.cvUrl && (
               <ArrowLink href={site.cvUrl} download>
                 Baixar CV
